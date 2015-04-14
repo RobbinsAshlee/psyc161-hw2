@@ -46,7 +46,7 @@ def write_answers(output_file, questions, answers, timings):
 def parse_options(argv):
     """TODO
     """
-    # TODO:  __file__.__doc__ can give you the docstring of this file -- use it
+    # TODO:  __doc__ can give you the docstring of this file -- use it
     #        for description?
 
     # Define command line options we know
