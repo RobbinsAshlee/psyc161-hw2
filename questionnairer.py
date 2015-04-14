@@ -8,14 +8,14 @@ consult our first lecture notes for what to do for that.
 
 import argparse
 import sys
-from os.path import exists
-import time
+import os.path
 
 
 # NOTE: API (what functions are named, their arguments and return values) is
 #       only suggestive.
 #
 #       Feel free to change everything for this homework.
+input_file = load(../psyc161-hw2/questionnaires/sample1.txt)
 
 def read_questions(input_file):
     """Reads questions and answer choices from the input_file
@@ -23,8 +23,21 @@ def read_questions(input_file):
     # Questions will be a list where each item consists of a list where first
     # element is the question, and the 2nd one -- available choices.
     questions = []
+    answ = []
     with open(input_file) as f:
-        pass  # TODO
+        for line in f.readlines():
+            if line == '#':
+                continue
+            elif line == '-':
+                editQ = line.lstrip('_')
+                questions.append(editQ)
+            elif line == ' *':
+                editA = line.lstrip(' *')
+                answ.append(editA)
+            else:
+                print 'improper question format'
+
+        pass
     return questions
 
 
@@ -32,6 +45,10 @@ def present_questions(questions):
     """TODO
     """
     answers, timings = [], []
+    for ask in questions:
+        start = time.time()
+
+
     # TODO
     return answers, timings
 
@@ -66,7 +83,7 @@ def main(argv):
     """Main body of the program
     """
     args = parse_options(argv)
-    if not exists(args.input_file):
+    if not os.path.exists(args.input_file):
         # Error messages are usually output to "standard error", not "standard
         # output", so we will write to the stderr directly as if it was a file.
         # .write() does not add a newline (\n) so we have to do it
@@ -85,7 +102,8 @@ def main(argv):
 #
 # Testing routines
 #
-from nose.tools import assert_equal, assert_raises
+from nose.tools import assert_equal
+
 
 def test_read_questions():
     pass # TODO: you could read sample files under questionnaires/
