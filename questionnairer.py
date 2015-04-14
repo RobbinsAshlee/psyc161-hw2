@@ -28,10 +28,10 @@ def read_questions(input_file):
         for line in f.readlines():
             if line == '#':
                 continue
-            elif line == '-':
+            elif line[] == '-':
                 editQ = line.lstrip('_')
                 questions.append(editQ)
-            elif line == ' *':
+            elif line[] == ' *':
                 editA = line.lstrip(' *')
                 answ.append(editA)
             else:
@@ -42,11 +42,14 @@ def read_questions(input_file):
 
 
 def present_questions(questions):
-    """TODO
+    """ for each question in questions print them one by one
     """
     answers, timings = [], []
-    for ask in questions:
+    for ask in len(questions):
         start = time.time()
+        Print questions[ask]
+        rxntime = (time.time() - start)
+        response = answ[1]
 
 
     # TODO
@@ -54,14 +57,19 @@ def present_questions(questions):
 
 
 def write_answers(output_file, questions, answers, timings):
-    """TODO
+    """write the responses to each question in a file
     """
     with open(output_file, 'w') as f:
+        answ = []
+        for ask in len(questions)
+            str2write = '-{}\n * []\n *'
+            f.write(str2write)
+            answ = answ + 1
         pass # TODO
 
 
 def parse_options(argv):
-    """TODO
+    """I do not understand this section
     """
     # TODO:  __doc__ can give you the docstring of this file -- use it
     #        for description?
