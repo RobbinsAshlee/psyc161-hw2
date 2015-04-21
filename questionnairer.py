@@ -2,8 +2,6 @@
 
 Note: All TODO items need to be addressed, and TODO comments removed
 
-TODO: make this program executable on Linux/OSX platforms.  You can
-consult our first lecture notes for what to do for that.
 """
 
 import argparse
@@ -110,32 +108,44 @@ def main(argv):
 #
 # Testing routines
 #
-from nose.tools import assert_equal
+from nose.tools import assert_equal, assert_raises
 
 
 def test_read_questions():
-    pass # TODO: you could read sample files under questionnaires/
+    assert_equal(read_questions('sample1.txt'),
+                 [['What is your name darling?'],
+                 ['Have you slept well today?', 'yes', 'no'],
+                 ['Rate from 1 (hate it) to 5 (love it) how much you like to '
+                  'press buttons?', '1', '2', '3', '4', '5']])
+    pass
 
 def test_present_questions():
-    pass # TODO -- could be tricky, just remember that you could pass functions
-         # inside functions, so not necessarily raw_input has to be called inside
-         # present_questions ;)
+    """ tests present_questions function
+    """
+    (ans, times) = present_questions([['What is your name darling?'],
+                                      ['Have you slept well today?', 'yes', 'no'],
+                                      ['Rate from 1 (hate it) to 5 (love it) how much for you like to press buttons?', '1', '2','3', '4', '5']], testing=True)
+    assert_equal(ans, ['Billy Gates Junior', 'yes', '1'])
+    assert_equal(times[0:] < [0.1]*3, True)
+    pass
+
 
 def test_parse_argv():
-    pass # TODO - verify that given correct options, you get correct 
+    assert_raises(TypeError, parse_options, 'sample1.txt', 1)
+    assert_raises(TypeError, parse_options, 1, 'output.txt')
+
+    pass # TODO - verify that given correct options, you get correct
 
 def test_main():
     # Just run it and see it not fail -- we return nothing.  It is a "smoke test"
-    assert_equal(main(["questionnairer.py",
-                       "-o", "questionnaires/sample1-output.test",
-                       "questionnaires/sample1.txt"]),
+    assert_equal(main(["questionnairer.py", "-o", "test_write.txt", "sample1.txt"], testing=True),
                  None)
-    # TODO: add more
+    asset_raises(ValueError, main, [questionnairer.py, sample1.txt], testing=True)
 
     # TODO: super-extra credit: figure out how to test execution of main with
     # "--help".
 
 
 if __name__ == '__main__':
-    # sys.argv provides command line arguments given to the script
+    # this section will run read_questions et al.
     main(sys.argv)
