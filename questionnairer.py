@@ -6,14 +6,15 @@ Note: All TODO items need to be addressed, and TODO comments removed
 
 import argparse
 import sys
-import os.path
+import os.path import exists
+import time
 
 
 # NOTE: API (what functions are named, their arguments and return values) is
 #       only suggestive.
 #
 #       Feel free to change everything for this homework.
-input_file = load(../psyc161-hw2/questionnaires/sample1.txt)
+os.chdir('home/ashlee/psyc161-hw2/questionnaires/sample1.txt')
 
 def read_questions(input_file):
     """Reads questions and answer choices from the input_file
