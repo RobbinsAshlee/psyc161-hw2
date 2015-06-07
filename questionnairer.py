@@ -1,4 +1,4 @@
-"""Program to run simple questionnairs
+"""Program to run simple questionnaires
 
 Note: All TODO items need to be addressed, and TODO comments removed
 
@@ -6,7 +6,7 @@ Note: All TODO items need to be addressed, and TODO comments removed
 
 import argparse
 import sys
-import os.path import exists
+from os.path import exists
 import time
 
 
@@ -14,7 +14,7 @@ import time
 #       only suggestive.
 #
 #       Feel free to change everything for this homework.
-os.chdir('home/ashlee/psyc161-hw2/questionnaires/sample1.txt')
+
 
 def read_questions(input_file):
     """Reads questions and answer choices from the input_file
@@ -22,36 +22,44 @@ def read_questions(input_file):
     # Questions will be a list where each item consists of a list where first
     # element is the question, and the 2nd one -- available choices.
     questions = []
-    answ = []
+    answers_right = []
     with open(input_file) as f:
-        for line in f.readlines():
-            if line == '#':
+        line = f.readlines()
+        for line in lines:
+            if line.startswith('#'):
                 continue
-            elif line[] == '-':
+            elif line.startswith('-'):
                 editQ = line.lstrip('_')
                 questions.append(editQ)
-            elif line[] == ' *':
+            elif line.startswith('  *'):
                 editA = line.lstrip(' *')
-                answ.append(editA)
+                answers_right.append(editA)
             else:
-                print 'improper question format'
+                assert ValueError('incorrect question format')
 
-        pass
     return questions
 
 
-def present_questions(questions):
+def present_questions(questions, testing_input =None):
     """ for each question in questions print them one by one
     """
     answers, timings = [], []
-    for ask in len(questions):
+    user_input = testing_input or raw_input()
+    for ask in questions:
         start = time.time()
-        Print questions[ask]
-        rxntime = (time.time() - start)
-        response = answ[1]
-
-
-    # TODO
+        if questions[1] == 0 or testing_input:
+            answers.append(user_input(questions[0]))
+            if testing_input:
+                time.sleep(0.05)
+                continue
+        else:
+            user_response = str(usr_input(question[0])).lower()
+            while user_response not in answers_right[0]:
+                print "Provide an acceptable answer:",
+                print str(question[0])).lower()
+            answers.append(user_response)
+        rxntime = time.time() - start
+        timings.append(rxntime)
     return answers, timings
 
 
@@ -59,24 +67,22 @@ def write_answers(output_file, questions, answers, timings):
     """write the responses to each question in a file
     """
     with open(output_file, 'w') as f:
-        answ = []
-        for ask in len(questions)
-            str2write = '-{}\n * []\n *'
-            f.write(str2write)
-            answ = answ + 1
-        pass # TODO
+        for (questions, answer), answer, timing in zip(questions, answer, timings):
+            f.writelines('-%s\n' % questions)
+            f.writelines(" * %s\n" + % answer)
+            f.writelines(" * response time: %f\n" % timings)
+        f.close()
+
 
 
 def parse_options(argv):
-    """I do not understand this section
+    """command line options for parsing the document
     """
-    # TODO:  __doc__ can give you the docstring of this file -- use it
-    #        for description?
 
     # Define command line options we know
-    parser = argparse.ArgumentParser(description="Simple questionnair runner")
+    parser = argparse.ArgumentParser(description=mainDocString)
     parser.add_argument('input_file',
-                        help='Input file containing questionnair')
+                        help='Input file containing questionnaire')
     parser.add_argument('-o', '--output_file',
                         help='Output file to store answers')
 
@@ -86,7 +92,7 @@ def parse_options(argv):
 
 # We moved out this functionality into a separate function, so we could
 # automatically test its correct function
-def main(argv):
+def main(argv, testing_input=None):
     """Main body of the program
     """
     args = parse_options(argv)
@@ -101,7 +107,8 @@ def main(argv):
         raise ValueError("Please provide the output file")
 
     questions = read_questions(args.input_file)
-    answers, timings = present_questions(questions)
+    answers, timings = present_questions(questions,
+                                        testing_input=simulated_rae_input)
 
     write_answers(args.output_file, questions, answers, timings)
 
@@ -111,8 +118,10 @@ def main(argv):
 #
 from nose.tools import assert_equal, assert_raises
 
+def dummy(question):
+    return 'this is not an answer'
 
-def test_read_questions():
+def test_read_questions(input_file):
     assert_equal(read_questions('sample1.txt'),
                  [['What is your name darling?'],
                  ['Have you slept well today?', 'yes', 'no'],
@@ -135,18 +144,16 @@ def test_parse_argv():
     assert_raises(TypeError, parse_options, 'sample1.txt', 1)
     assert_raises(TypeError, parse_options, 1, 'output.txt')
 
-    pass # TODO - verify that given correct options, you get correct
+    pass #verify that given correct options, you get correct
 
 def test_main():
-    # Just run it and see it not fail -- we return nothing.  It is a "smoke test"
-    assert_equal(main(["questionnairer.py", "-o", "test_write.txt", "sample1.txt"], testing=True),
-                 None)
-    asset_raises(ValueError, main, [questionnairer.py, sample1.txt], testing=True)
-
-    # TODO: super-extra credit: figure out how to test execution of main with
-    # "--help".
-
+    assert_equal(main['questionnairer.py', '-o', 'NOSETEST.txt', 'sample1.txt'],
+                 input_func=dummy), none)
+    assert_raises(ValueError, main ['questionnairer.py', 'sample1.txt'], input_func=dummy)
+    assert_raises(ValueError, main, ['questionnairer.py', '-o', 'NotCorrect.txt', 'questionnaires/sample1errors.txt'],
+                input_func=dummy)
+    pass
 
 if __name__ == '__main__':
-    # this section will run read_questions et al.
+    # this section will run read_questions and start the function
     main(sys.argv)
