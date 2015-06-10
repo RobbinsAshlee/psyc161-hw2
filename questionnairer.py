@@ -56,7 +56,7 @@ def present_questions(questions, testing_input =None):
             user_response = str(usr_input(question[0])).lower()
             while user_response not in answers_right[0]:
                 print "Provide an acceptable answer:",
-                print str(question[0])).lower()
+            print str(question[0])).lower()
             answers.append(user_response)
         rxntime = time.time() - start
         timings.append(rxntime)
@@ -90,16 +90,11 @@ def parse_options(argv):
     return parser.parse_args(argv[1:])
 
 
-# We moved out this functionality into a separate function, so we could
-# automatically test its correct function
 def main(argv, testing_input=None):
     """Main body of the program
     """
     args = parse_options(argv)
     if not os.path.exists(args.input_file):
-        # Error messages are usually output to "standard error", not "standard
-        # output", so we will write to the stderr directly as if it was a file.
-        # .write() does not add a newline (\n) so we have to do it
         sys.stderr.write("File %s not found\n" % args.input_file)
         raise SystemExit(4)
 
